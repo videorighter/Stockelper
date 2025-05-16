@@ -170,26 +170,24 @@ Stockelper는 다중 에이전트 시스템을 기반으로 하며, 각 에이�
 
 <table>
   <tr>
-    <td align="center" width="33%">
+    <td align="center" width="25%">
       <a href="#">
-        <img src="assets/kis.png" alt="KIS" width="200"/>
+        <img src="assets/kis.png" alt="KIS" width="180"/>
       </a>
     </td>
-    <td align="center" width="33%">
+    <td align="center" width="25%">
       <a href="#">
-        <img src="assets/naver-cloud.png" alt="Naver Cloud" width="200"/>
+        <img src="assets/naver-cloud.png" alt="Naver Cloud" width="180"/>
       </a>
     </td>
-  </tr>
-  <tr>
-    <td align="center" width="33%">
+    <td align="center" width="25%">
       <a href="#">
-        <img src="assets/telepix.png" alt="Telepix" width="200"/>
+        <img src="assets/telepix.png" alt="Telepix" width="180"/>
       </a>
     </td>
-    <td align="center" width="33%">
+    <td align="center" width="25%">
       <a href="#">
-        <img src="assets/pseudolab.png" alt="PseudoLab" width="200"/>
+        <img src="assets/pseudolab.png" alt="PseudoLab" width="180"/>
       </a>
     </td>
   </tr>
