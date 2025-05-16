@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/stockpunman.png" alt="Stockelper" width="100%"/>
+  <img src="assets/bull.png" alt="Stockelper" width="100%"/>
 </div>
 
 # Stockelper - Your AI Stock Investment Assistant
