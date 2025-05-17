@@ -20,9 +20,19 @@ Stockelper는 다중 에이전트 시스템을 기반으로 하며, 각 에이�
 
 ## 사용자 흐름도
 
-사용자가 Stockelper와 상호작용하는 전체 과정을 보여주는 사용자 흐름도입니다.
+사용자가 Stockelper와 상호작용하는 과정을 보여주는 사용자 흐름도입니다.
 
-![User Flow](assets/user_flow.png)
+### 기본 사용자 흐름
+
+기본적인 사용자 질의 및 응답 흐름을 보여줍니다.
+
+![User Flow 1](assets/user_flow1.png)
+
+### 상세 사용자 흐름
+
+다중 에이전트 시스템을 통한 상세 처리 과정을 보여줍니다.
+
+![User Flow 2](assets/user_flow2.png)
 
 ## 주요 에이전트 구성
 
