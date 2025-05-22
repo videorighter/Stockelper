@@ -196,7 +196,7 @@ Stockelper는 다중 에이전트 시스템을 기반으로 하며, 각 에이�
     </td>
     <td align="center" width="25%">
       <a href="#">
-        <img src="assets/naver-cloud.png" alt="Naver Cloud" width="180"/>
+        <img src="assets/naver-cloud-platform.png.png" alt="Naver Cloud Platform" width="180"/>
       </a>
     </td>
     <td align="center" width="25%">
