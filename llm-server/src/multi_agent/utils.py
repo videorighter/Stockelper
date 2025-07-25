@@ -1,3 +1,5 @@
+import json
+from langchain_core.messages import HumanMessage, AIMessage, BaseMessage
 import os
 import requests
 import json
@@ -22,6 +24,7 @@ class User(Base):
     kis_app_secret = Column(Text, nullable=False)
     kis_access_token = Column(Text, nullable=True)
     account_no = Column(Text, nullable=False) # ex) "50132452-01"
+    investor_type = Column(Text, nullable=True)
     created_at = Column(TIMESTAMP, server_default=func.now())
     updated_at = Column(TIMESTAMP, server_default=func.now(), onupdate=func.now())
 
@@ -38,6 +41,7 @@ async def get_user_kis_credentials(async_engine: object, user_id: int):
                 "kis_app_secret": user.kis_app_secret,
                 "kis_access_token": user.kis_access_token,
                 "account_no": user.account_no,
+                "investor_type": user.investor_type
             }
         else:
             return None
@@ -141,7 +145,7 @@ def get_hashkey(app_key, app_secret, body_data, url_base):
         return None
         
 
-def place_order(stock_code:str, order_side:str, order_type:str, order_price:float, order_quantity:int, account_no:str = None, kis_app_key:str = None, kis_app_secret:str = None, kis_access_token:str = None) -> dict:
+def place_order(stock_code:str, order_side:str, order_type:str, order_price:float, order_quantity:int, account_no:str = None, kis_app_key:str = None, kis_app_secret:str = None, kis_access_token:str = None, **kwargs) -> dict:
     """
     국내주식 모의투자 매수 또는 매도 주문을 실행.
 
@@ -201,3 +205,17 @@ def place_order(stock_code:str, order_side:str, order_type:str, order_price:floa
         return res_data['msg1']
     else:
         return "주문 요청 실패"
+    
+
+def custom_add_messages(existing: list, update: list):
+    for message in update:
+        if not isinstance(message, BaseMessage):
+            if message["role"] == "user":
+                existing.append(HumanMessage(content=message["content"]))
+            elif message["role"] == "assistant":
+                existing.append(AIMessage(content=message["content"]))
+            else:
+                raise ValueError(f"Invalid message type: {type(message)}")
+        else:
+            existing.append(message)
+    return existing[-10:]
