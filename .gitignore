@@ -172,3 +172,13 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+charts/
+
+test.py
+
+test_streaming.py
+
+.cursor
+
+.vscode
