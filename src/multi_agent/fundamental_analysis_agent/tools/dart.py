@@ -10,6 +10,7 @@ import OpenDartReader
 import dotenv
 import os
 import json
+from datetime import datetime
 
 
 class AnalysisFinancialStatementInput(BaseModel):
@@ -163,9 +164,20 @@ class AnalysisFinancialStatementTool(BaseTool):
     def _run(
         self, stock_code: str, config: RunnableConfig, run_manager: Optional[CallbackManagerForToolRun] = None
     ):
-        financial_statement_all = self.dart.finstate_all(stock_code, 2024)
-        analysis_result = self.calculater(financial_statement_all)
+        current_year = datetime.now().year
+        financial_statement_all = None
 
+        for offset in range(5):
+            year = current_year - offset
+            df = self.dart.finstate_all(stock_code, year)
+            if df is not None and not df.empty:
+                financial_statement_all = df
+                break
+
+        if financial_statement_all is None or financial_statement_all.empty:
+            return {"error": "최근 5년 내 재무제표를 찾지 못했습니다."}
+
+        analysis_result = self.calculater(financial_statement_all)
         return analysis_result
 
     async def _arun(
