@@ -58,7 +58,7 @@ class GetAccountInfoTool(BaseTool):
         if account_info is None:
             return "There is no account information available."
         
-        if account_info == "기간이 만료된 token 입니다.":
+        if "유효하지 않은 token" in account_info:
             user_info['kis_access_token'] = await get_access_token(user_info['kis_app_key'], user_info['kis_app_secret'])
             account_info = await check_account_balance(user_info['kis_app_key'], user_info['kis_app_secret'], user_info['kis_access_token'], user_info['account_no'])
             update_access_token_flag = True

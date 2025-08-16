@@ -78,12 +78,9 @@ class AnalysisStockTool(BaseTool):
             async with aiohttp.ClientSession() as session:
                 async with session.get(URL, headers=headers, params=params) as res:
                     status_code = res.status
-                    text = await res.text()
+                    res_body = await res.json()
 
-                    # print(f"Price response status: {status_code}")
-                    # print(f"Price response body: {text}")
-
-                    if status_code == 500 and "기간이 만료된 token" in text:
+                    if status_code == 500 and "유효하지 않은 token" in res_body['msg1']:
                         user_info['kis_access_token'] = await get_access_token(user_info['kis_app_key'], user_info['kis_app_secret'])
                         update_access_token_flag = True
 
@@ -94,29 +91,19 @@ class AnalysisStockTool(BaseTool):
                             URL, headers=headers, params=params
                         ) as res_refresh:
                             status_code = res_refresh.status
-                            text = await res_refresh.text()
-
-                            # print(
-                            #     f"Price response status (after token refresh): {status_code}"
-                            # )
-                            # print(f"Price response body (after token refresh): {text}")
+                            res_body = await res_refresh.json()
 
                     if update_access_token_flag:
                         await update_user_kis_credentials(self.async_engine, user_id, user_info['kis_access_token'])
 
                     if status_code != 200:
-                        # print(f"API call failed with status code {status_code}: {text}")
                         return None
 
                     try:
-                        data = (
-                            await res.json() if status_code == 200 else json.loads(text)
-                        )
-                        if data.get("rt_cd") != "0":
-                            # print(f"API returned error: {data}")
+                        if res_body.get("rt_cd") != "0":
                             return None
 
-                        output = data.get("output", {})
+                        output = res_body.get("output", {})
                         if not output:
                             # print("No output data in response")
                             return None

@@ -187,8 +187,6 @@ def place_order(stock_code:str, order_side:str, order_type:str, order_price:floa
         "ORD_QTY": str(order_quantity),  # 주문수량
         "ORD_UNPR": str(order_price) if isinstance(order_price, int) else "0",  # 주문 단가 
     }
-    # hashkey 생성
-    hash_key = get_hashkey(kis_app_key, kis_app_secret, body, url)
 
     headers = {
         "Content-Type": "application/json",
@@ -196,15 +194,10 @@ def place_order(stock_code:str, order_side:str, order_type:str, order_price:floa
         "appKey": kis_app_key,
         "appSecret": kis_app_secret,
         "tr_id": tr_id,  # 모의투자 매수 - VTTC0802U / 모의투자 매도 - VTTC0011U
-        "custtype": "P",
-        "hashkey": hash_key
+        "custtype": "P"
     }
     res = requests.post(url, headers=headers, data=json.dumps(body))
-    if res.status_code == 200:
-        res_data = res.json()
-        return res_data['msg1']
-    else:
-        return "주문 요청 실패"
+    return res.json()['msg1']
     
 
 def custom_add_messages(existing: list, update: list):

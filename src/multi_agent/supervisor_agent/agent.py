@@ -16,7 +16,7 @@ from langchain_openai import ChatOpenAI
 from neo4j import GraphDatabase
 from sqlalchemy.ext.asyncio import create_async_engine
 from .prompt import SYSTEM_TEMPLATE, TRADING_SYSTEM_TEMPLATE, STOCK_NAME_USER_TEMPLATE, STOCK_CODE_USER_TEMPLATE
-from ..utils import place_order, get_user_kis_credentials, custom_add_messages
+from ..utils import place_order, get_user_kis_credentials, get_access_token, update_user_kis_credentials, custom_add_messages
 
 
 class Router(BaseModel):
@@ -174,11 +174,24 @@ class SupervisorAgent:
         print("human_check", human_check)
         
         if human_check:
-            user_info = await get_user_kis_credentials(self.async_engine, config["configurable"]["user_id"])
+            user_id = config["configurable"]["user_id"]
+            user_info = await get_user_kis_credentials(self.async_engine, user_id)
+            update_access_token_flag = False
             if user_info:
+                if user_info['kis_access_token'] is None:
+                    user_info['kis_access_token'] = await get_access_token(user_info['kis_app_key'], user_info['kis_app_secret'])
+                    update_access_token_flag = True
+
                 kwargs = state.trading_action | user_info
 
                 trading_result = place_order(**kwargs)
+                if "기간이 만료된 token" in trading_result:
+                    kwargs['kis_access_token'] = await get_access_token(user_info['kis_app_key'], user_info['kis_app_secret'])
+                    update_access_token_flag = True
+                    trading_result = place_order(**kwargs)
+
+                if update_access_token_flag:
+                    await update_user_kis_credentials(self.async_engine, user_id, user_info['kis_access_token'])
             else:
                 trading_result = "계좌정보가 없습니다."
 
