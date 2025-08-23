@@ -109,6 +109,8 @@ docker network create stockelper
 docker compose up --build -d
 ```
 
+> 참고: Docker 이미지 내부에서 Python 의존성 설치는 pip가 아닌 Astral uv로 수행됩니다. 사용자는 별도 조치 없이 위 명령만 실행하면 됩니다.
+
 ### 모의투자 계정 업로드
 ```bash
 docker compose exec llm-server python src/upload_user.py
@@ -124,7 +126,7 @@ streamlit run src/frontend/streamlit_app.py
 ```
 Stockelper/
 ├── 📁 src/                      # 소스 코드
-│   ├── __init__.py              
+│   ├── __init__.py
 │   ├── main.py                  # 메인 FastAPI 애플리케이션
 │   ├── upload_user.py           # 사용자 모의 투자 계정 업로드
 │   ├── 📁 multi_agent/          # 멀티 에이전트 시스템
@@ -133,33 +135,33 @@ Stockelper/
 │   │   ├── 📁 base/             # Agent base class
 │   │   │   ├── __init__.py
 │   │   │   └── analysis_agent.py    # Anaysis agent base class
-│   │   ├── 📁 supervisor_agent/     
+│   │   ├── 📁 supervisor_agent/
 │   │   │   ├── __init__.py
 │   │   │   ├── agent.py             # SupervisorAgent Workflow
 │   │   │   └── prompt.py            # prompt
-│   │   ├── 📁 market_analysis_agent/  #  MarketAnalysisAgent 
+│   │   ├── 📁 market_analysis_agent/  #  MarketAnalysisAgent
 │   │   │   ├── __init__.py          # object instantiation
 │   │   │   ├── agent.py             # workflow
 │   │   │   ├── prompt.py            # prompt
-│   │   │   └── 📁 tools/            
+│   │   │   └── 📁 tools/
 │   │   │       ├── __init__.py
 │   │   │       ├── graph_qa.py      # 지식 그래프 검색 도구
 │   │   │       ├── news.py          # 뉴스 검색 도구
 │   │   │       ├── report.py        # 투자 리포트 검색 도구
 │   │   │       ├── sentiment.py     # 리포트 감정 분석 도구
 │   │   │       └── youtube_tool.py  # YouTube 검색 도구
-│   │   ├── 📁 fundamental_analysis_agent/   # FundamentalAnalysisAgent 
+│   │   ├── 📁 fundamental_analysis_agent/   # FundamentalAnalysisAgent
 │   │   │   ├── __init__.py          # object instantiation
 │   │   │   ├── agent.py             # workflow
 │   │   │   ├── prompt.py            # prompt
-│   │   │   └── 📁 tools/          
+│   │   │   └── 📁 tools/
 │   │   │       ├── __init__.py
 │   │   │       └── dart.py          # 재무제표 분석 도구
 │   │   ├── 📁 technical_analysis_agent/     # TechnicalAnalysisAgent
 │   │   │   ├── __init__.py          # object instantiation
 │   │   │   ├── agent.py             # workflow
 │   │   │   ├── prompt.py            # prompt
-│   │   │   └── 📁 tools/            
+│   │   │   └── 📁 tools/
 │   │   │       ├── __init__.py
 │   │   │       ├── chart_analysis_tool.py   # 주식 차트 이미지 분석 도구
 │   │   │       └── stock.py         # 주식 정보 및 기술적 분석 도구
@@ -167,14 +169,14 @@ Stockelper/
 │   │   │   ├── __init__.py          # object instantiation
 │   │   │   ├── agent.py             # workflow
 │   │   │   ├── prompt.py            # prompt
-│   │   │   └── 📁 tools/         
+│   │   │   └── 📁 tools/
 │   │   │       ├── __init__.py
 │   │   │       └── portfolio.py     # 포트폴리오 분석 도구
 │   │   └── 📁 investment_strategy_agent/    # InvestmentStrategyAgent
 │   │       ├── __init__.py          # object instantiation
 │   │       ├── agent.py             # workflow
 │   │       ├── prompt.py            # prompt
-│   │       └── 📁 tools/           
+│   │       └── 📁 tools/
 │   │           ├── __init__.py
 │   │           ├── account.py       # 계정 정보 조회 도구
 │   │           └── search.py        # 투자 전략 검색 도구
@@ -186,16 +188,16 @@ Stockelper/
 │   └── 📁 frontend/                 # 프론트엔드
 │       ├── __init__.py
 │       └── streamlit_app.py         # Streamlit 웹 인터페이스
-├── .dockerignore                   
+├── .dockerignore
 ├── .env.example                     # api key
 ├── .gitignore
 ├── docker-compose.yml               # Docker Compose 설정
 ├── Dockerfile                       # Docker 이미지 설정
 ├── init-multiple-db.sh              # 데이터베이스 초기화 스크립트
-├── LICENSE                         
+├── LICENSE
 ├── README.md
 ├── requirements.txt                 # Python 의존성
-└── 📁 assets                        # 문서 이미지 및 자료                 
+└── 📁 assets                        # 문서 이미지 및 자료
 ```
 
 ## 🔧 기술 스택
@@ -230,7 +232,7 @@ Stockelper/
 
 ### AI 서비스
 - `OPENAI_API_KEY`: OpenAI GPT 모델
-- `OPENROUTER_API_KEY`: perplexity 
+- `OPENROUTER_API_KEY`: perplexity
 
 ### 데이터 서비스
 - `OPEN_DART_API_KEY`: 기업 재무제표
