@@ -1,6 +1,6 @@
 # Pre-commit 설치 및 사용 가이드
 
-이 문서는 SatCHAT 프로젝트에서 pre-commit을 설치하고 사용하는 방법을 설명합니다.
+이 문서는 Stockelper 프로젝트 개발시 pre-commit을 설치하고 사용하는 방법을 설명합니다.
 
 ## 개요
 
